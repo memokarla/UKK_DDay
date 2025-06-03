@@ -58,8 +58,8 @@ class SiswaController extends Controller
         $request->validate([
             'nama' => 'sometimes|required|string|max:255',
             'nis' => 'sometimes|required|numeric|unique:siswas,nis,' . $siswa->id,
-            'gender' => 'sometimes|required|in:Laki-laki,Perempuan',
-            'rombel' => 'sometimes|required|in:SIJA A,SIJA B',
+            'gender' => 'sometimes|required|in:L,P',
+            'rombel' => 'sometimes|required|in:SijaA,SijaB',
             'alamat' => 'sometimes|required|string',
             'kontak' => 'sometimes|required|string',
             'email' => 'sometimes|required|email|unique:siswas,email,' . $siswa->id,

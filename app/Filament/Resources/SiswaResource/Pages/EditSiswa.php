@@ -37,33 +37,4 @@ class EditSiswa extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
-    // simpan dulu nilai email lama sebelum update
-    // dijalankan sebelum data baru disimpan
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $this->previousEmail = $this->record->email; 
-        // $this->previousEmail = simpan email lama supaya bisa dipakai nanti setelah data disimpan
-        // $this->record->email = email lama yang tersimpan di DB
-        return $data;
-    }
-
-    // setelah siswa berhasil disimpan (jadi email barunya sudah ada)
-    protected function afterSave(): void
-    {
-        $user = \App\Models\User::where('email', $this->previousEmail)->first();
-        // $this->previousEmail = cari User berdasarkan email lama
-        // Kalau first() tidak menemukan apa-apa, $user akan null, dan kondisi ini akan melewati blok update()
-
-        // jika ada data user yang ditemukan
-        if ($user) {
-            $user->update([
-            // update field email milik user
-                'email' => $this->record->email,
-                // update field email milik user
-                // isi barunya diambil dari email milik siswa yang barusan diedit
-                // $this->record->email = email baru dari siswa yang sudah tersimpan (hasil dari form edit)
-            ]);
-        }
-    }
 }

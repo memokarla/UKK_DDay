@@ -55,7 +55,7 @@ class GuruController extends Controller
         $request->validate([
             'nama' => 'sometimes|required|string|max:255',
             'nip' => 'sometimes|required|numeric|unique:gurus,nip,' . $guru->id,
-            'gender' => 'sometimes|required|in:Laki-laki,Perempuan',
+            'gender' => 'sometimes|required|in:L,P',
             'alamat' => 'sometimes|required|string',
             'kontak' => 'sometimes|required|string',
             'email' => 'sometimes|required|email|unique:gurus,email,' . $guru->id,

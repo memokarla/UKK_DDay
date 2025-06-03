@@ -23,21 +23,4 @@ class EditUser extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        $this->previousEmail = $this->record->email;
-        return $data;
-    }
-
-    protected function afterSave(): void
-    {
-        $siswa = \App\Models\Siswa::where('email', $this->previousEmail)->first();
-
-        if ($siswa) {
-            $siswa->update([
-                'email' => $this->record->email,
-            ]);
-        }
-    }
 }

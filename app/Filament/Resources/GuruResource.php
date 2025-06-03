@@ -74,6 +74,7 @@ class GuruResource extends Resource
                             Forms\Components\TextInput::make('kontak')
                                 ->label('Kontak') 
                                 ->placeholder('Kontak Guru') 
+                                ->numeric()
                                 ->prefix('+62') // untuk awalan +62
                                 ->dehydrateStateUsing(fn ($state) => ltrim($state, '0')) // saat disimpan, hilangkan angka 0 di depan
                                 ->required(),

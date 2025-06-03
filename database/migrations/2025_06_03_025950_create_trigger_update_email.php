@@ -23,18 +23,6 @@ return new class extends Migration
                 END IF;
             END
         ");
-
-        // user edit email, siswa ikut teredit
-        DB::unprepared("
-            CREATE TRIGGER update_email_from_user
-            AFTER UPDATE ON users
-            FOR EACH ROW
-            BEGIN
-                IF OLD.email != NEW.email THEN
-                    UPDATE siswas SET email = NEW.email WHERE email = OLD.email;
-                END IF;
-            END
-        ");
     }
 
     /**
@@ -43,7 +31,6 @@ return new class extends Migration
     public function down(): void
     {
         DB::unprepared("DROP TRIGGER IF EXISTS update_email_from_siswa");
-        DB::unprepared("DROP TRIGGER IF EXISTS update_email_from_user");
     }
 };
 	

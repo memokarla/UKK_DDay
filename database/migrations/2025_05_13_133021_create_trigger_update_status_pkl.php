@@ -31,6 +31,20 @@ return new class extends Migration
                 UPDATE siswas SET status_lapor_pkl = FALSE WHERE id = OLD.siswa_id;
             END
         ");
+
+        DB::unprepared("
+            CREATE TRIGGER update_status_lapor_pkl_on_update
+            AFTER UPDATE ON pkls
+            FOR EACH ROW
+            BEGIN
+                IF OLD.siswa_id != NEW.siswa_id THEN
+                    IF (SELECT COUNT(*) FROM pkls WHERE siswa_id = OLD.siswa_id AND id != OLD.id) = 0 THEN
+                        UPDATE siswas SET status_lapor_pkl = FALSE WHERE id = OLD.siswa_id;
+                    END IF;
+                    UPDATE siswas SET status_lapor_pkl = TRUE WHERE id = NEW.siswa_id;
+                END IF;
+            END
+        ");
     }
 
     /**
@@ -40,5 +54,6 @@ return new class extends Migration
     {
         DB::unprepared('DROP TRIGGER IF EXISTS update_status_lapor_pkl');
         DB::unprepared('DROP TRIGGER IF EXISTS revert_status_lapor_pkl');
+        DB::unprepared('DROP TRIGGER IF EXISTS update_status_lapor_pkl_on_update');
     }
 };
